@@ -11,6 +11,7 @@ import java.time.LocalDateTime;
 @Builder
 public class DocumentVersionListItemResponse {
     private Long id;
+    private String content;
     private Integer versionNumber;
     private String editorIp;
     private String editSummary;
@@ -19,6 +20,7 @@ public class DocumentVersionListItemResponse {
     public static DocumentVersionListItemResponse from(DocumentVersion version) {
         return DocumentVersionListItemResponse.builder()
                 .id(version.getId())
+                .content(version.getContent())
                 .versionNumber(version.getVersionNumber())
                 .editorIp(version.getEditorIp())
                 .editSummary(version.getEditSummary())

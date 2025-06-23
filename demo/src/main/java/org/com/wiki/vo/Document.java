@@ -27,6 +27,10 @@ public class Document {
     @Column(nullable = false)
     private LocalDateTime updatedAt;
 
+    @Column(nullable = false)
+    @Default
+    private Long views = 0L;
+
     @OneToMany(mappedBy = "document", cascade = CascadeType.ALL, orphanRemoval = true)
     @OrderBy("versionNumber DESC")
     @Default // ★★★ 이 어노테이션을 여기에 추가하세요 ★★★

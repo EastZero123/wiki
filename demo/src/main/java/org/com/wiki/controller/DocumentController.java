@@ -14,6 +14,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/documents")
 @RequiredArgsConstructor
+@CrossOrigin(origins = "http://localhost:3000")
 public class DocumentController {
 
     private final DocumentService documentService;
@@ -92,6 +93,16 @@ public class DocumentController {
     @GetMapping("/{title}/versions")
     public ResponseEntity<List<DocumentVersionListItemResponse>> getDocumentVersions(@PathVariable String title) {
         List<DocumentVersionListItemResponse> versions = documentService.getDocumentVersions(title);
+        return ResponseEntity.ok(versions);
+    }
+
+    /**
+     * 특정 문서의 최신 버전 정보 제공
+     * GET /api/documents/{title}/{id}
+     */
+    @GetMapping("/{title}/{id}")
+    public ResponseEntity<List<DocumentVersionListItemResponse>> getDocumentRecentVersions(@PathVariable String title, @PathVariable Long id) {
+        List<DocumentVersionListItemResponse> versions = documentService.getDocumentRecentVersions(title, id);
         return ResponseEntity.ok(versions);
     }
 

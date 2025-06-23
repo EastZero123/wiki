@@ -11,7 +11,9 @@ import org.com.wiki.vo.DocumentVersion;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -53,7 +55,7 @@ public class DocumentService {
      * 모든 문서 목록을 조회합니다.
      */
     public List<DocumentListItemResponse> getAllDocuments() {
-        return documentRepository.findAll().stream()
+        return documentRepository.findTop10ByOrderByViewsDesc().stream()
                 .map(DocumentListItemResponse::from)
                 .collect(Collectors.toList());
     }
@@ -121,6 +123,31 @@ public class DocumentService {
         return documentVersionRepository.findByDocumentIdOrderByVersionNumberDesc(document.getId()).stream()
                 .map(DocumentVersionListItemResponse::from)
                 .collect(Collectors.toList());
+    }
+
+    /**
+     * 특정 문서의 최신 버전을 조회합니다.
+     */
+    public List<DocumentVersionListItemResponse> getDocumentRecentVersions(String title, Long id) {
+        Document document = documentRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("문서를 찾을 수 없습니다: " + id));
+
+         DocumentVersion latestVersion = documentVersionRepository.findFirstByDocumentIdAndUseYnOrderByVersionNumberDesc(document.getId(), "Y");
+
+
+        if (latestVersion != null) {
+            DocumentVersionListItemResponse response = DocumentVersionListItemResponse.builder()
+                    .id(latestVersion.getId())
+                    .content(latestVersion.getContent())
+                    .editSummary(latestVersion.getEditSummary())
+                    .editedAt(latestVersion.getEditedAt())
+                    .editorIp(latestVersion.getEditorIp())
+                    .versionNumber(latestVersion.getVersionNumber())
+                    .build();
+            return Collections.singletonList(response);
+        } else {
+            return Collections.emptyList();
+        }
     }
 
     /**

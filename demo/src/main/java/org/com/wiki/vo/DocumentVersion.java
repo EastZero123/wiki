@@ -30,6 +30,10 @@ public class DocumentVersion {
     @Column(nullable = false)
     private LocalDateTime editedAt; // 편집 시간
 
+    @Column(nullable = false, length = 2)
+    @Builder.Default
+    private String useYn = "Y";
+
     // 양방향 관계 설정을 위한 Setter (Document에서 호출)
     // 연관 관계: DocumentVersion과 Document는 N:1 관계
     @Setter

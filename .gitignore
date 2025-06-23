@@ -38,3 +38,7 @@ out/
 
 demo/target
 demo/src/main/resources/application.properties
+
+front/node_modules
+front/.env.*
+front/build
