@@ -1,0 +1,75 @@
+.mainPageContainer {
+    max-width: 960px;
+    margin: 20px auto;
+    padding: 30px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.pageTitle {
+    font-size: 2em;
+    color: #0056b3;
+    border-bottom: 2px solid #eee;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+.introText {
+    margin-bottom: 25px;
+    color: #555;
+}
+
+.loadingMessage, .noDataMessage {
+    text-align: center;
+    padding: 30px 0;
+    color: #777;
+    font-style: italic;
+}
+
+.hotDocumentsList {
+    list-style: none; /* 기본 목록 마커 제거 */
+    padding: 0;
+    margin: 0;
+}
+
+.documentItem {
+    padding: 15px 0;
+    border-bottom: 1px dashed #eee; /* 나무위키 느낌의 점선 구분선 */
+}
+
+.documentItem:last-child {
+    border-bottom: none; /* 마지막 아이템에는 구분선 없음 */
+}
+
+.documentTitle {
+    font-size: 1.3em;
+    margin-top: 0;
+    margin-bottom: 5px;
+}
+
+.documentTitle a {
+    color: #e69720; /* 링크 색상 */
+    text-decoration: none; /* 밑줄 제거 */
+}
+
+.documentTitle a:hover {
+    text-decoration: underline; /* 호버 시 밑줄 */
+    color: #e69720; /* 호버 시 색상 변경 */
+}
+
+.documentDescription {
+    font-size: 0.95em;
+    color: #666;
+    line-height: 1.5;
+}
+
+.documentRank {
+    display: inline-block;
+    min-width: 25px; /* 랭킹 숫자가 한자리/두자리여도 너비 유지 */
+    text-align: center;
+    margin-right: 10px;
+    font-weight: bold;
+    color: #0056b3; /* 랭킹 숫자 강조 */
+}

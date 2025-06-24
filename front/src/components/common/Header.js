@@ -1,8 +1,10 @@
+import { Link } from "react-router-dom";
+
 const Header = () => (
-    <header style={{ padding: '10px', background: '#f0f0f0', borderBottom: '1px solid #ccc' }}>
+    <header>
         <h1>Wiki Service</h1>
         <nav>
-            <a href="/">홈</a> | <a href="/create">새 문서</a>
+            <Link to="/">홈</Link> | <Link to="/create">새 문서</Link>
         </nav>
     </header>
 );
