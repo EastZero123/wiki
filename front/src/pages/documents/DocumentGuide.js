@@ -1,8 +1,8 @@
 const DocumentGuide = () => {
     return (
         <div className="document-guide">
-            <h1>Document Guide</h1>
-            <p>This guide will help you understand how to manage your documents effectively.</p>
+            <h1>마크다운 가이드 페이지</h1>
+            <p>예시 페이지입니다.</p>
             <ul>
                 <li>Step 1: Create a new document</li>
                 <li>Step 2: Edit your document</li>

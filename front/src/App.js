@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route, useNavigate, useParams } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Header from './components/common/Header';
 import Footer from './components/common/Footer';
 import HomePage from './pages/HomePage';
@@ -9,8 +9,8 @@ import DocumentHistoryPage from './pages/documents/DocumentHistoryPage';
 import DocumentCreatePage from './pages/documents/DocumentCreatePage';
 import DocumentVersionViewPage from './pages/documents/DocumentVersionViewPage';
 import DocumentDeletePage from './pages/documents/DocumentDeletePage';
-import './App.css';
 import DocumentGuide from './pages/documents/DocumentGuide';
+import './App.css';
 
 const SearchPage = () => {
     return <div><h2>검색 결과</h2><p>여기에 검색 결과 목록이 표시됩니다.</p></div>;

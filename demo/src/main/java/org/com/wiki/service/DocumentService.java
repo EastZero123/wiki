@@ -66,7 +66,18 @@ public class DocumentService {
     public DocumentResponse getDocumentByTitle(String title) {
         Document document = documentRepository.findByTitle(title)
                 .orElseThrow(() -> new ResourceNotFoundException("문서를 찾을 수 없습니다: " + title));
+
+        documentRepository.incrementDocumentViewCount(document.getId());
+
         return DocumentResponse.from(document);
+    }
+
+    /**
+     * 조회수 1을 증가 시킵니다.
+     */
+    @Transactional
+    public void incrementDocumentViewCount(Long id) {
+        documentRepository.incrementDocumentViewCount(id);
     }
 
     /**
@@ -128,26 +139,24 @@ public class DocumentService {
     /**
      * 특정 문서의 최신 버전을 조회합니다.
      */
+    @Transactional
     public List<DocumentVersionListItemResponse> getDocumentRecentVersions(String title, Long id) {
         Document document = documentRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("문서를 찾을 수 없습니다: " + id));
 
          DocumentVersion latestVersion = documentVersionRepository.findFirstByDocumentIdAndUseYnOrderByVersionNumberDesc(document.getId(), "Y");
 
+        documentRepository.incrementDocumentViewCount(latestVersion.getDocument().getId());
 
-        if (latestVersion != null) {
-            DocumentVersionListItemResponse response = DocumentVersionListItemResponse.builder()
-                    .id(latestVersion.getId())
-                    .content(latestVersion.getContent())
-                    .editSummary(latestVersion.getEditSummary())
-                    .editedAt(latestVersion.getEditedAt())
-                    .editorIp(latestVersion.getEditorIp())
-                    .versionNumber(latestVersion.getVersionNumber())
-                    .build();
-            return Collections.singletonList(response);
-        } else {
-            return Collections.emptyList();
-        }
+        DocumentVersionListItemResponse response = DocumentVersionListItemResponse.builder()
+                .id(latestVersion.getId())
+                .content(latestVersion.getContent())
+                .editSummary(latestVersion.getEditSummary())
+                .editedAt(latestVersion.getEditedAt())
+                .editorIp(latestVersion.getEditorIp())
+                .versionNumber(latestVersion.getVersionNumber())
+                .build();
+        return Collections.singletonList(response);
     }
 
     /**

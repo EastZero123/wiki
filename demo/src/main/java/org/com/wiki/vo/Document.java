@@ -33,7 +33,7 @@ public class Document {
 
     @OneToMany(mappedBy = "document", cascade = CascadeType.ALL, orphanRemoval = true)
     @OrderBy("versionNumber DESC")
-    @Default // ★★★ 이 어노테이션을 여기에 추가하세요 ★★★
+    @Default
     private List<DocumentVersion> versions = new ArrayList<>();
 
     // 편의 메서드 (양방향 관계 설정)

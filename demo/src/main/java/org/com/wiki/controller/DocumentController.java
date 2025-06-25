@@ -14,7 +14,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/documents")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "http://10.10.10.155:3000")
 public class DocumentController {
 
     private final DocumentService documentService;
