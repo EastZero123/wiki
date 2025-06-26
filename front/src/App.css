@@ -1,22 +1,53 @@
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+#root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
 main {
+  flex: 1;
   padding: 20px;
-}
-
-header {
-  background: #f0f0f0;
-  padding: 10px;
-  border-bottom: 1px solid #ccc;
-}
-
-a {
-  text-decoration: none;
-  color: #e69720;
 }
 
 footer {
   padding: 10px;
   background: #f0f0f0;
   border-top: 1px solid #ccc;
-  margin-top: 20px;
   text-align: center;
+}
+
+
+
+/* 나머지 기존 CSS는 동일하게 유지 */
+header {
+  background: #f0f0f0;
+  padding: 10px;
+  border-bottom: 1px solid #ccc;
+}
+
+header h1 img {
+  height: 40px;
+  vertical-align: middle;
+  margin-right: 10px;
+}
+
+header h1 p {
+  display: inline;
+  font-size: 1.2em;
+  color: #e69720;
+}
+
+header nav a{
+  color: black;
+}
+
+a {
+  text-decoration: none;
+  color: #e69720;
 }

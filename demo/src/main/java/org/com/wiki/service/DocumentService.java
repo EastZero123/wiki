@@ -52,7 +52,7 @@ public class DocumentService {
     }
 
     /**
-     * 모든 문서 목록을 조회합니다.
+     * 상위 10개 조회수 문서 목록을 조회합니다.
      */
     public List<DocumentListItemResponse> getAllDocuments() {
         return documentRepository.findTop10ByOrderByViewsDesc().stream()
@@ -66,8 +66,6 @@ public class DocumentService {
     public DocumentResponse getDocumentByTitle(String title) {
         Document document = documentRepository.findByTitle(title)
                 .orElseThrow(() -> new ResourceNotFoundException("문서를 찾을 수 없습니다: " + title));
-
-        documentRepository.incrementDocumentViewCount(document.getId());
 
         return DocumentResponse.from(document);
     }

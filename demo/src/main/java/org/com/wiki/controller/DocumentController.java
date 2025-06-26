@@ -38,7 +38,7 @@ public class DocumentController {
     }
 
     /**
-     * 모든 위키 문서 목록 조회
+     * 조회수 상위 10개 위키 문서 목록 조회
      * GET /api/documents
      */
     @GetMapping

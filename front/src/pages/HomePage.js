@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import styles from '../css/HomePage.module.css';
 
 const API_URL = process.env.REACT_APP_API_URL;
-const DEBUG_MODE = process.env.REACT_APP_DEBUG_MODE;
 
 const HomePage = () => {
     const [data, setData] = useState()

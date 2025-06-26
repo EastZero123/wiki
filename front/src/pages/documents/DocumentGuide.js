@@ -204,6 +204,10 @@ const part8 = `
 \`\`\`markdown
 ---
 \`\`\`
+---
+
+<br>
+<br>
 `; // part8 끝
 
 const part9 = `
