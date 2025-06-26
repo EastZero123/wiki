@@ -1,5 +1,14 @@
+.documentGuide {
+  padding: 20px; /* 전체 페이지 내부 여백 */
+  max-width: 800px; /* 페이지의 최대 너비를 설정하여 가독성 향상 */
+  margin: 0 auto; /* 중앙 정렬 */
+  font-family: Arial, sans-serif; /* 기본 글꼴 설정 */
+  line-height: 1.6; /* 줄 간격 조절로 가독성 높임 */
+  color: #333; /* 기본 텍스트 색상 */
+}
+
 .hrSubtle {
   border: none;
-  border-top: 0.5px solid #e0e0e0; /* 훨씬 얇고 연한 회색 선 */
-  margin: 15px 0; /* 위아래 여백을 줄여서 세부 구분임을 나타냄 */
+  border-top: 0.5px solid #e0e0e0;
+  margin: 15px 0;
 }

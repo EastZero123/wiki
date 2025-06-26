@@ -226,7 +226,7 @@ const part9 = `
 
 const DocumentGuide = () => {
     return (
-        <div className="document-guide">
+        <div className={styles.documentGuide}>
             <ReactMarkdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeRaw]}>
                 {part1}
             </ReactMarkdown>
