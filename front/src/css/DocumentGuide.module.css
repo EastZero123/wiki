@@ -1,0 +1,5 @@
+.hrSubtle {
+  border: none;
+  border-top: 0.5px solid #e0e0e0; /* 훨씬 얇고 연한 회색 선 */
+  margin: 15px 0; /* 위아래 여백을 줄여서 세부 구분임을 나타냄 */
+}
