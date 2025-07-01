@@ -1,6 +1,9 @@
 import { Link, useNavigate, useParams } from "react-router-dom";
 import styles from '../../css/DocumentEditPage.module.css';
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
+import * as DiffMatchPatch from 'diff-match-patch';
+
+const dmp = new DiffMatchPatch();
 
 const API_URL = process.env.REACT_APP_API_URL;
 
@@ -14,14 +17,56 @@ const DocumentEditPage = () => {
     });
 
     const [data, setData] = useState();
-    const [loading, setLoading] = useState(true);
+
+    const [oldText, setOldText] = useState('');
+    const [newText, setNewText] = useState('');
+    const [diffs, setDiffs] = useState('');
+    const [highlightedDiff, setHighlightedDiff] = useState(null);
+    const [showHighlight, setShowHighlight] = useState(true);
+    const compareTexts = async () => {
+
+        const differ = dmp.diff_main(oldText, newText);
+        dmp.diff_cleanupSemantic(differ);
+
+        let additions = 0;
+        let deletions = 0;
+        const highlightElements = [];
+
+        differ.forEach(([type, text]) => {
+            if (type === DiffMatchPatch.DIFF_INSERT) {
+                additions += text.length; // 추가된 글자 수 합산
+                if (showHighlight) {
+                    highlightElements.push(<span key={text + Math.random()} style={{ backgroundColor: '#ddffdd' }}>{text}</span>);
+                }
+            } else if (type === DiffMatchPatch.DIFF_DELETE) {
+                deletions += text.length; // 삭제된 글자 수 합산
+                if (showHighlight) {
+                    highlightElements.push(<span key={text + Math.random()} style={{ backgroundColor: '#ffdddd', textDecoration: 'line-through' }}>{text}</span>);
+                }
+            } else { // 동일 (DiffMatchPatch.DIFF_EQUAL)
+                if (showHighlight) {
+                    highlightElements.push(<span key={text + Math.random()}>{text}</span>);
+                }
+            }
+        });
+
+        const calculatedDiffs = `+${additions} -${deletions}`; // 계산된 diffs 값
+        setDiffs(calculatedDiffs); // 상태는 여전히 업데이트
+        setHighlightedDiff(highlightElements); // 상태는 여전히 업데이트
+
+        return calculatedDiffs;
+    }
+
+    useEffect(() => {
+        setDiffs('');
+        setHighlightedDiff(null);
+    }, [oldText, newText]);
 
     useEffect(() => {
         fetch(`${API_URL}/${urlTitle}`)
             .then(response => response.json())
             .then(json => {
                 setData(json);
-                setLoading(false);
             })
             .catch(error => {
                 console.error('Error fetching home data:', error);
@@ -36,6 +81,7 @@ const DocumentEditPage = () => {
                 summary: data.editSummary || '',
             });
         }
+        setOldText(data ? data.content : '');
     }, [data])
 
     const handleChange = (e) => {
@@ -44,6 +90,10 @@ const DocumentEditPage = () => {
             ...prevData,
             [name]: value
         }));
+
+        if (name === 'content') {
+            setNewText(e.target.value);
+        }
     };
 
     const navigate = useNavigate();
@@ -51,11 +101,16 @@ const DocumentEditPage = () => {
     const handleSubmit = async (event) => {
         event.preventDefault();
 
+        const diff = await compareTexts();
         setIsSubmitting(true);
 
         const title = formData.title;
         const content = formData.content;
         const editSummary = formData.summary;
+
+
+        console.log("handleSubmit 내부 - diffs (상태):", diffs); // 이 시점의 diffs는 여전히 이전 값일 수 있습니다.
+        console.log("handleSubmit 내부 - diff (방금 계산된 값):", diff); // 이 값이 정확한 최신 값입니다.
 
         try {
             const response = await fetch(`${API_URL}/${title}`, {
@@ -66,7 +121,8 @@ const DocumentEditPage = () => {
                 body: JSON.stringify({
                     title,
                     content,
-                    editSummary
+                    editSummary,
+                    diff
                 }),
             })
 
@@ -128,6 +184,31 @@ const DocumentEditPage = () => {
                     <strong className={styles['tip-strong']}>팁:</strong> 문서 내용은 <Link to='/guide'>깃허브 문법</Link>에 따라 마크다운 형식으로 작성됩니다. 미리 학습하시면 더욱 멋진 문서를 만드실 수 있습니다!
                 </div>
             </form>
+
+            <button onClick={compareTexts} style={{ padding: '10px 20px', fontSize: '16px', cursor: 'pointer', backgroundColor: '#007bff', color: 'white', border: 'none', borderRadius: '5px' }}>
+                비교하기
+            </button>
+
+            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                <h2>변경 요약: {diffs}</h2>
+                <label>
+                    <input
+                        type="checkbox"
+                        checked={showHighlight}
+                        onChange={(e) => setShowHighlight(e.target.checked)}
+                    />
+                    차이점 하이라이트 보기
+                </label>
+            </div>
+
+            {showHighlight && highlightedDiff && (
+                <div>
+                    <h3>비교 결과 (하이라이트)</h3>
+                    <div style={{ whiteSpace: 'pre-wrap', border: '1px solid #ccc', padding: '10px', minHeight: '100px', backgroundColor: '#f9f9f9', fontFamily: 'monospace' }}>
+                        {highlightedDiff.length > 0 ? highlightedDiff : '차이가 없습니다.'}
+                    </div>
+                </div>
+            )}
         </div>
     )
 };

@@ -34,6 +34,10 @@ public class DocumentVersion {
     @Builder.Default
     private String useYn = "Y";
 
+    @Column(nullable = false)
+    @Builder.Default
+    private String diff = "";
+
     // 양방향 관계 설정을 위한 Setter (Document에서 호출)
     // 연관 관계: DocumentVersion과 Document는 N:1 관계
     @Setter

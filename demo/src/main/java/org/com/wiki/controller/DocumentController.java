@@ -71,6 +71,7 @@ public class DocumentController {
                 .content(request.getContent())
                 .editSummary(request.getEditSummary())
                 .editorIp(clientIp)
+                .diff(request.getDiff())
                 .build();
         DocumentResponse response = documentService.updateDocument(title, request);
         return ResponseEntity.ok(response);
@@ -114,6 +115,17 @@ public class DocumentController {
     public ResponseEntity<DocumentVersionResponse> getSpecificDocumentVersion(@PathVariable String title, @PathVariable Integer versionNumber) {
         DocumentVersionResponse version = documentService.getSpecificDocumentVersion(title, versionNumber);
         return ResponseEntity.ok(version);
+    }
+
+    /**
+     * 특정 문서의 특정 버전 상세 조회
+     * GET /api/documents/{title}/compare/{versionNumber1}/{versionNumber2}
+     */
+    @GetMapping("/{title}/compare/{versionNumber1}/{versionNumber2}")
+    public ResponseEntity<List<DocumentVersionResponse>> getVersionsForComparison (
+            @PathVariable String title, @PathVariable Integer versionNumber1, @PathVariable Integer versionNumber2) {
+        List<DocumentVersionResponse> versions = documentService.getVersionsForComparison(title, versionNumber1, versionNumber2);
+        return ResponseEntity.ok(versions);
     }
 
     /**

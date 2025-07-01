@@ -1,0 +1,133 @@
+/* HistoryPage.module.css */
+
+.container {
+    font-family: 'Malgun Gothic', 'Apple SD Gothic Neo', sans-serif;
+    background-color: #f7f7f7;
+    border: 1px solid #ccc;
+    margin: 20px;
+    padding: 15px;
+    box-shadow: 0 0 5px rgba(0,0,0,0.1);
+    color: #333;
+    font-size: 14px;
+}
+
+.header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.docTitle {
+    font-size: 20px;
+    font-weight: bold;
+    margin: 0;
+    flex-grow: 1;
+    color: #000;
+}
+
+.navButtons button {
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    padding: 5px 10px;
+    margin-left: 5px;
+    cursor: pointer;
+    font-size: 13px;
+    border-radius: 3px;
+}
+
+.navButtons button:hover {
+    background-color: #e0e0e0;
+}
+
+.compareOption {
+    margin-left: 20px;
+    display: flex;
+    align-items: center;
+    font-size: 13px;
+    white-space: nowrap; /* "선택 리비전 비교" 텍스트 줄바꿈 방지 */
+}
+
+.compareOption input[type="checkbox"] {
+    margin-right: 5px;
+}
+
+.historyList {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.historyItem {
+    display: flex;
+    align-items: baseline;
+    padding: 7px 0;
+    border-bottom: 1px dotted #e0e0e0;
+    line-height: 1.5;
+}
+
+.historyItem:last-child {
+    border-bottom: none;
+}
+
+.date {
+    flex-basis: 150px;
+    min-width: 150px;
+    color: #555;
+    font-size: 13px;
+}
+
+.links {
+    margin-left: 10px;
+    white-space: nowrap;
+}
+
+.links a {
+    color: #007bff;
+    text-decoration: none;
+    margin-right: 5px;
+    font-size: 13px;
+}
+
+.links a:hover {
+    text-decoration: underline;
+}
+
+.revisionInfo {
+    flex-basis: 90px;
+    min-width: 90px;
+    font-weight: bold;
+    color: #333;
+    margin-left: 10px;
+    white-space: nowrap;
+}
+
+.changes {
+    font-weight: normal;
+    margin-left: 3px;
+}
+
+.changesPositive {
+    color: green;
+}
+
+.changesNegative {
+    color: red;
+}
+
+.contributor {
+    flex-basis: 100px;
+    min-width: 100px;
+    color: #007bff;
+    margin-left: 10px;
+    white-space: nowrap;
+}
+
+.summary {
+    flex-grow: 1;
+    color: #666;
+    margin-left: 10px;
+    word-break: break-word;
+}

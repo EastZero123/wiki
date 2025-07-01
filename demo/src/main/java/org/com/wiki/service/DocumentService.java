@@ -11,6 +11,7 @@ import org.com.wiki.vo.DocumentVersion;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -43,6 +44,7 @@ public class DocumentService {
                 .versionNumber(1)
                 .editorIp(request.getEditorIp())
                 .editSummary(request.getEditSummary() != null ? request.getEditSummary() : "문서 생성")
+                .diff("NEW")
                 .build();
 
         document.addVersion(initialVersion);
@@ -104,6 +106,7 @@ public class DocumentService {
                 .versionNumber(nextVersionNumber)
                 .editorIp(request.getEditorIp())
                 .editSummary(request.getEditSummary() != null ? request.getEditSummary() : "문서 수정")
+                .diff(request.getDiff())
                 .build();
 
         document.addVersion(newVersion);
@@ -168,6 +171,42 @@ public class DocumentService {
                 .orElseThrow(() -> new ResourceNotFoundException("해당 버전의 문서를 찾을 수 없습니다: 문서=" + title + ", 버전=" + versionNumber));
 
         return DocumentVersionResponse.from(version);
+    }
+
+    /**
+     * 특정 문서의 두 버전을 조회합니다.
+     */
+    public List<DocumentVersionResponse> getVersionsForComparison(String title, Integer versionNumber1, Integer versionNumber2) {
+        Document document = documentRepository.findByTitle(title)
+                .orElseThrow(() -> new ResourceNotFoundException("문서를 찾을 수 없습니다: " + title));
+
+        DocumentVersion version1Entity = documentVersionRepository.findByDocumentIdAndVersionNumber(document.getId(), versionNumber1)
+                .orElseThrow(() -> new ResourceNotFoundException("해당 버전의 문서를 찾을 수 없습니다: 문서=" + title + ", 버전=" + versionNumber1));;
+
+        DocumentVersion version2Entity = documentVersionRepository.findByDocumentIdAndVersionNumber(document.getId(), versionNumber2)
+                .orElseThrow(() -> new ResourceNotFoundException("해당 버전의 문서를 찾을 수 없습니다: 문서=" + title + ", 버전=" + versionNumber2));;
+
+        // Entity를 DTO로 변환
+        DocumentVersionResponse dto1 = new DocumentVersionResponse(
+                version1Entity.getId(),
+                version1Entity.getDocument().getId(),
+                version1Entity.getContent(),
+                version1Entity.getVersionNumber(),
+                version1Entity.getEditorIp(),
+                version1Entity.getEditSummary(),
+                version1Entity.getEditedAt()
+        );
+        DocumentVersionResponse dto2 = new DocumentVersionResponse(
+                version2Entity.getId(),
+                version2Entity.getDocument().getId(),
+                version2Entity.getContent(),
+                version2Entity.getVersionNumber(),
+                version2Entity.getEditorIp(),
+                version2Entity.getEditSummary(),
+                version2Entity.getEditedAt()
+        );
+
+        return Arrays.asList(dto1, dto2); // 리스트로 반환
     }
 
     /**
